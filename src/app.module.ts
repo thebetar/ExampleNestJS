@@ -8,18 +8,25 @@ import { ProfileModule } from './profile/profile.module';
 import { TagModule } from './tag/tag.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    ArticleModule,
-    UserModule,
-    ProfileModule,
-    TagModule
-  ],
-  controllers: [
-    AppController
-  ],
-  providers: []
+	imports: [
+		TypeOrmModule.forRoot({
+			type: 'postgres',
+			host: 'localhost',
+			port: 5432,
+			username: 'myuser',
+			password: 'mypassword',
+			database: 'mydatabase',
+			entities: [__dirname + '/**/*.entity{.ts,.js}'],
+			synchronize: true,
+		}),
+		ArticleModule,
+		UserModule,
+		ProfileModule,
+		TagModule,
+	],
+	controllers: [AppController],
+	providers: [],
 })
 export class ApplicationModule {
-  constructor(private readonly connection: Connection) {}
+	constructor(private readonly connection: Connection) {}
 }
